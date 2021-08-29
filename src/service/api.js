@@ -24,10 +24,62 @@ export function getData(params) {
   })
 }
 
+export function getBillData(params) {
+  return request({
+    url: '/bill/data',
+    method: 'get',
+    params
+  })
+}
+
 
 export function getTypeList() {
   return request({
     url: '/type/list',
     method: 'get',
+  })
+}
+
+export function addBillData(data) {
+  return request({
+    url: '/bill/add',
+    method: 'post',
+    data
+  })
+}
+
+export function getBillDetail(id) {
+  return request({
+    url: '/bill/detail',
+    method: 'get',
+    params: {
+      id
+    }
+  })
+}
+
+export function deleteBillDetail(id) {
+  return request({
+    url: '/bill/delete',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+export function updateBillDetail(data) {
+  return request({
+    url: '/bill/update',
+    method: 'post',
+    data
+  })
+}
+
+
+export function getUser() {
+  return request({
+    url: '/user/get_userinfo',
+    method: 'get',   
   })
 }

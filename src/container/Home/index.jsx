@@ -9,6 +9,9 @@ import { getData } from '@/service/api';
 import dayjs from 'dayjs';
 
 import { LOAD_STATE, REFRESH_STATE } from '@/utils';
+import PopupDate from '@/components/PopupDate';
+import CustomIcon from '@/components/CustomIcon';
+import PopupAddBill from '../../components/PopupAddBill';
 
 const Home = () => {
   const [page, setPage] = useState(1); // 分页
@@ -18,11 +21,16 @@ const Home = () => {
   const [loading, setLoading] = useState(LOAD_STATE.normal); // 上拉加载状态
   const [list, setList] = useState([]); // 账单列表
   const [currentSelect, setCurrentSelect] = useState({}); // 当前筛选的类型
+  const [totalExpense, setTotalExpense] = useState(0); // 总收入
+  const [totalIncome, setTotalIncome] = useState(0); // 总支出
+
   const typeRef = useRef();
+  const monthRef = useRef();
+  const addRef = useRef();
 
   useEffect(() => {
     getBillList();
-  }, [page, currentSelect]);
+  }, [page, currentSelect, currentTime]);
 
   const getBillList = async () => {
     const { data } = await getData({
@@ -31,12 +39,14 @@ const Home = () => {
       date: currentTime,
       type_id: currentSelect.id || 'all',
     });
-    console.log(currentSelect, '______currentSelect');
+    console.log(data, 'data');
     if (page === 1) {
       setList(data.list);
     } else {
       setList(list.concat(data.list));
     }
+    setTotalExpense(data.totalExpense.toFixed(2));
+    setTotalIncome(data.totalIncome.toFixed(2));
     setTotalPage(data.totalPage);
     setLoading(LOAD_STATE.success);
     setRefreshing(REFRESH_STATE.success);
@@ -67,18 +77,35 @@ const Home = () => {
     setCurrentSelect(item);
   };
 
+  const selectMonth = (value) => {
+    setRefreshing(REFRESH_STATE.loading);
+    setPage(1);
+    setCurrentTime(value);
+    if (value === currentTime) {
+      getBillList();
+    }
+  };
+
   const toggle = () => {
     typeRef.current && typeRef.current.show();
+  };
+
+  const monthToggle = () => {
+    monthRef.current && monthRef.current.show();
+  };
+
+  const addToggle = () => {
+    addRef.current && addRef.current.show();
   };
   return (
     <div className={s.home}>
       <div className={s.header}>
         <div className={s.dataWrap}>
           <span className={s.expense}>
-            总支出：<b>￥0.00</b>
+            总支出：<b>￥{totalExpense}</b>
           </span>
           <span className={s.income}>
-            总收入：<b>￥0.00</b>
+            总收入：<b>￥{totalIncome}</b>
           </span>
         </div>
         <div className={s.typeWrap}>
@@ -88,8 +115,8 @@ const Home = () => {
             </span>
           </div>
           <div className={s.right}>
-            <span className={s.time}>
-              2022-06
+            <span className={s.time} onClick={monthToggle}>
+              {currentTime}
               <Icon className={s.arrow} type="arrow-bottom" />
             </span>
           </div>
@@ -117,6 +144,11 @@ const Home = () => {
         ) : null}
       </div>
       <PopupType ref={typeRef} onSelect={select} />
+      <PopupDate ref={monthRef} mode="month" onSelect={selectMonth} />
+      <PopupAddBill ref={addRef} onReload={refreshData} />
+      <div className={s.add} onClick={addToggle}>
+        <CustomIcon type="tianjia"></CustomIcon>
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ import NavBar from '@/components/Nav';
 function App() {
   const location = useLocation();
   const { pathname } = location;
-  const needNav = ['/', 'data', 'user'];
+  const needNav = ['/', '/data', '/user'];
   const [showNav, setShowNav] = useState(false);
   console.log(location);
   useEffect(() => {

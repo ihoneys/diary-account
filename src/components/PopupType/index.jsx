@@ -16,8 +16,8 @@ const PopupType = forwardRef(({ onSelect }, ref) => {
     } = await getTypeList();
     console.log(list);
 
-    setExpense(list.filter((i) => i.type === 1));
-    setIncome(list.filter((i) => i.type === 2));
+    setExpense(list.filter((i) => i.type == 1));
+    setIncome(list.filter((i) => i.type == 2));
   }, []);
 
   if (ref) {
