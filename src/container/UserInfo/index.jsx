@@ -22,6 +22,7 @@ const UserInfo = () => {
   };
   const handleSelect = (file) => {
     console.log(file);
+    if(file)
     let formData = new FormData();
     formData.append('file', file.file);
   };
