@@ -19,7 +19,6 @@ p {
 
 * {
   box-sizing: border-box;
-  touch-action: pan-x;
 }
 
 #root {
