@@ -1,3 +1,6 @@
+import { baseUrl } from "@/service/config";
+const MODE = import.meta.env.MODE // 环境变量
+
 export const typeMap = {
   1: {
     icon: 'canyin'
@@ -66,3 +69,13 @@ export const LOAD_STATE = {
   failure: 4, // 加载失败
   complete: 5, // 加载完成（无新数据）
 };
+
+
+export const imageUrlTrans = (url) => {
+  if (url && url.startsWith('http')) {
+    return url;
+  } else {
+    url = `${MODE == 'development' ? 'http://api.chennick.wang' : baseUrl}${url}`
+    return url
+  }
+}

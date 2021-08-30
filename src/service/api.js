@@ -80,6 +80,33 @@ export function updateBillDetail(data) {
 export function getUser() {
   return request({
     url: '/user/get_userinfo',
-    method: 'get',   
+    method: 'get',
+  })
+}
+
+export function uploadAvatar(data) {
+  return request({
+    url: '/upload',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data
+  })
+}
+
+export function editUserInfo(data) {
+  return request({
+    url: '/user/edit_userinfo',
+    method: 'post',
+    data
+  })
+}
+
+export function modifyPassword(data) {
+  return request({
+    url: '/user/modify_pass',
+    method: 'post',
+    data
   })
 }

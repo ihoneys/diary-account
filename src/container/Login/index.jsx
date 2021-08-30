@@ -14,7 +14,6 @@ const Login = () => {
   const [type, setType] = useState('login');
   // 验证码变化，回调方法
   const handleChange = useCallback((captcha) => {
-    console.log('captcha', captcha);
     setCaptcha(captcha);
   }, []);
 
@@ -34,6 +33,7 @@ const Login = () => {
         Toast.show('登录成功');
         // 将 token 写入 localStorage
         localStorage.setItem('token', data.token);
+        window.location.href = '/';
       } else {
         if (!verify) {
           Toast.show('请输入验证码');
