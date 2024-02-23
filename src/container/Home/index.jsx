@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Icon, Pull } from 'zarm';
-import BillItem from '@/components/BillItem';
-import PopupType from '@/components/PopupType';
+import BillItem from "@/components/BillItem";
+import PopupType from "@/components/PopupType";
+import React, { useEffect, useRef, useState } from "react";
+import { Icon, Pull } from "zarm";
 
-import s from './style.module.less';
-import { getData } from '@/service/api';
+import { getData } from "@/service/api";
+import s from "./style.module.less";
 
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
-import { LOAD_STATE, REFRESH_STATE } from '@/utils';
-import PopupDate from '@/components/PopupDate';
-import CustomIcon from '@/components/CustomIcon';
-import PopupAddBill from '../../components/PopupAddBill';
+import CustomIcon from "@/components/CustomIcon";
+import PopupDate from "@/components/PopupDate";
+import { LOAD_STATE, REFRESH_STATE } from "@/utils";
+import PopupAddBill from "../../components/PopupAddBill";
 
 const Home = () => {
   const [page, setPage] = useState(1); // 分页
-  const [currentTime, setCurrentTime] = useState(dayjs().format('YYYY-MM'));
+  const [currentTime, setCurrentTime] = useState(dayjs().format("YYYY-MM"));
   const [totalPage, setTotalPage] = useState(0); // 分页总数
   const [refreshing, setRefreshing] = useState(REFRESH_STATE.normal); // 下拉刷新状态
   const [loading, setLoading] = useState(LOAD_STATE.normal); // 上拉加载状态
@@ -35,11 +35,11 @@ const Home = () => {
   const getBillList = async () => {
     const { data } = await getData({
       page,
-      page_size: 5,
+      page_size: 10,
       date: currentTime,
-      type_id: currentSelect.id || 'all',
+      typeId: currentSelect.id || "all",
     });
-    console.log(data, 'data');
+    console.log(data, "data");
     if (page === 1) {
       setList(data.list);
     } else {
@@ -54,7 +54,7 @@ const Home = () => {
 
   // 请求列表数据
   const refreshData = () => {
-    console.log('refreshData');
+    console.log("refreshData");
     setRefreshing(REFRESH_STATE.loading);
     if (page != 1) {
       setPage(1);
@@ -64,7 +64,7 @@ const Home = () => {
   };
 
   const loadData = () => {
-    console.log('loadData', page, totalPage);
+    console.log("loadData", page, totalPage);
     if (page < totalPage) {
       setLoading(LOAD_STATE.loading);
       setPage(page + 1);
@@ -111,7 +111,8 @@ const Home = () => {
         <div className={s.typeWrap}>
           <div className={s.left}>
             <span className={s.title} onClick={toggle}>
-              {currentSelect.name || '全部类型'} <Icon className={s.arrow} type="arrow-bottom" />
+              {currentSelect.name || "全部类型"}{" "}
+              <Icon className={s.arrow} type="arrow-bottom" />
             </span>
           </div>
           <div className={s.right}>

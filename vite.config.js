@@ -1,50 +1,53 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import reactRefresh from "@vitejs/plugin-react-refresh";
+import path from "path";
+import { defineConfig } from "vite";
 import styleImport from "vite-plugin-style-import";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     reactRefresh(),
-    styleImport(
-      {
-        libs: [
-          {
-            libraryName: 'zarm',
-            esModule: true,
-            resolveStyle: (name) => {
-              return `zarm/es/${name}/style/css`;
-            },
-          }
-        ]
-      }
-    )
+    styleImport({
+      libs: [
+        {
+          libraryName: "zarm",
+          esModule: true,
+          resolveStyle: (name) => {
+            return `zarm/es/${name}/style/css`;
+          },
+        },
+      ],
+    }),
   ],
   css: {
     modules: {
-      localsConvention: 'dashesOnly',
+      localsConvention: "dashesOnly",
     },
     preprocessorOptions: {
       less: {
         javascriptEnabled: true,
       },
-    }
+    },
   },
   server: {
     host: true,
     proxy: {
-      '/api': {
-        target: 'http://api.chennick.wang/api',
+      // '/api': {
+      //   target: 'http://api.chennick.wang/api',
+      //   changeOrigin: true,
+      //   rewrite: path => path.replace(/^\/api/, '')
+      // },
+      "/api": {
+        target: "http://localhost:8080",
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
-      }
-    }
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      'service': path.resolve(__dirname, 'src/service')
-    }
-  }
-})
+      "@": path.resolve(__dirname, "src"),
+      service: path.resolve(__dirname, "src/service"),
+    },
+  },
+});
