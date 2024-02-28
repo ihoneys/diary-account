@@ -64,13 +64,13 @@ const Data = () => {
   const getData = async () => {
     const { data } = await getBillData({ date: currentMonth });
 
-    setTotalExpense(data.total_expense);
-    setTotalIncome(data.total_income);
+    setTotalExpense(data.totalExpense);
+    setTotalIncome(data.totalIncome);
 
-    const expense_data = data.total_data
+    const expense_data = data.totalData
       .filter((i) => i.payType == 1)
       .sort((a, b) => b.number - a.number);
-    const income_data = data.total_data
+    const income_data = data.totalData
       .filter((i) => i.payType == 2)
       .sort((a, b) => b.number - a.number);
     setPieChart(pieType == "expense" ? expense_data : income_data);
@@ -91,6 +91,7 @@ const Data = () => {
   };
 
   const changePieType = (type) => {
+    setPieType(type);
     setPieChart(type == "expense" ? expenseData : incomeData);
   };
   return (
